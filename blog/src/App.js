@@ -2,7 +2,7 @@
 
 // import logo from './logo.svg';
 import './App.css';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 function App() {
 
@@ -13,8 +13,11 @@ function App() {
   // let [title2, b2] = useState("Second best is the medium coffee.");
   // let [title3, b3] = useState("Actually, large is good enough to share!");
   let [title, setTitle] = useState(["The small is supreme.", "Medium is premium.", "Large for a share!"]);
-  let [thumbsUp, thumbsUpChange] = useState([0, 0, 0]);
+  let [thumbsUp, setThumbsUp] = useState([0, 0, 0]);
   let [isModal, setIsModal] = useState(true);
+  let [nthTitle, nthTitleSet] = useState(0);
+  let [inputValue, setInputValue] = useState("");
+
 
   let teaChangerFunc = () => {
     let temp = [...title];
@@ -52,20 +55,54 @@ function App() {
         title.map((a, i) => {
           return (
             <div className="list" key={i}>
-              <h4 onClick={() => { setIsModal(!isModal) }}>{a} <span onClick={() => {
+              <h4 onClick={() => {
+                setIsModal(!isModal);
+                nthTitleSet(i);
+              }}>{a} <span onClick={(e) => {
+                e.stopPropagation();
                 var temp = [...thumbsUp];
                 temp[i] = temp[i] + 1;
-                thumbsUpChange(temp);
+                setThumbsUp(temp);
               }}>👍</span> {thumbsUp[i]}</h4>
               <p>Feb-20th</p>
+              <button onClick={(e) => {
+                e.stopPropagation();
+                let temp;
+                temp = [...title];
+                temp.splice(i, 1);
+                setTitle(temp);
+
+                temp = [...thumbsUp];
+                temp.splice(i, 1);
+                setThumbsUp(temp);
+
+              }}>Delete</button>
             </div>
           )
         })
       }
 
+      <input onChange={(e) => {
+        setInputValue(e.target.value);
+      }}></input>
+      <button onClick={(e) => {
+        let temp;
+        temp = [...title];
+        temp.unshift(inputValue);
+        setTitle(temp);
+
+        temp = [...thumbsUp];
+        temp.unshift(0);
+        setThumbsUp(temp);
+      }}>Submit</button>
+
+      <Profile />
+
       {
-        isModal === true ? <Modal teaFunc={teaChangerFunc} title={title} /> : null
+        isModal === true ? <Modal teaFunc={teaChangerFunc} title={title[nthTitle]} /> : null
       }
+
+
 
     </div>
   );
@@ -77,7 +114,7 @@ function Modal(props) {
     <>
       <div>
         <div className='modal' style={{ background: props.color }}>
-          <h4>{props.title[0]}</h4>
+          <h4>{props.title}</h4>
           <p>Date</p>
           <p>Details</p>
           <button onClick={props.teaFunc}>Edit</button>
@@ -85,6 +122,27 @@ function Modal(props) {
       </div>
     </>
   )
+}
+
+class Profile extends React.Component {
+  constructor() {
+    super();
+    this.state = { name: "Jinho", age: 25 }
+  }
+
+  changeName = () => {
+    this.setState({ name: "Hwang" });
+  }
+
+  render() {
+    return (
+      <div>
+        <h3>This is my profile!</h3>
+        <p>I am {this.state.name}.</p>
+        <button onClick={this.changeName }>This is a button.</button>
+      </div>
+    )
+  }
 }
 
 export default App;
