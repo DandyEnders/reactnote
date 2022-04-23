@@ -23,6 +23,7 @@ function Item(iData) {
 
   return (
     <Col>
+    {/* ... src={ "http... image" + prop.i + ".jpg" } ... */}
       <img src={iData.img} width="100%" alt="product" />
       <h4>{iData.title}</h4>
       <p>{iData.content}</p>
