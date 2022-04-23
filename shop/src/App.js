@@ -1,9 +1,35 @@
-import logo from './logo.svg';
-import React, { Component } from 'react';
-import { Navbar, Container, Nav, NavDropdown, Button } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Navbar, Container, Nav, NavDropdown, Button, Col, Row } from 'react-bootstrap';
 import './App.css';
+import Data from "./data.js";
+
+function ItemList() {
+  let [shoeData] = useState(Data);
+  return (
+    <Container>
+      {
+        shoeData.map((a) => {
+          return Item(a)
+        })
+      }
+    </Container>
+  )
+}
+
+function Item(iData) {
+
+  return (
+    <Col>
+      <img src={iData.img} width="100%" alt="product" />
+      <Row><h4>{iData.title}</h4></Row>
+      <Row><p>{iData.content}</p></Row>
+      <Row><p>&#8361;{iData.price.toLocaleString("en", { useGrouping: true })}</p></Row>
+    </Col>
+  )
+}
 
 function App() {
+
   return (
     <div className="App">
       <Navbar bg="light" expand="lg">
@@ -28,35 +54,15 @@ function App() {
       <div className="background">
         <div><h1>20% Season off</h1>
           <p>
-            This is a simple hero unit, a simple jumbotron-style
-            component for calling extra attention to featured content
-            or information.
+            Welcome to my shop!
           </p>
           <p>
             <Button variant="primary">Learn more</Button>{' '}
           </p>
         </div>
       </div>
-      
-      <div className="container">
-        <div className="row">
-          <div className="col-md-4">
-            <img src="https://codingapple1.github.io/shop/shoes1.jpg" width="100%" />
-            <h4>A shoe</h4>
-            <p>A fantastic shoe!</p>
-          </div>
-          <div className="col-md-4">
-            <img src="https://codingapple1.github.io/shop/shoes2.jpg" width="100%" />
-            <h4>A shoe</h4>
-            <p>A red shoe. Esthetic!</p>
-          </div>
-          <div className="col-md-4">
-            <img src="https://codingapple1.github.io/shop/shoes3.jpg" width="100%" />
-            <h4>A shoe</h4>
-            <p>I would wear this in my workout.</p>
-          </div>
-        </div>
-      </div>
+
+      <ItemList />
     </div>
   );
 }
