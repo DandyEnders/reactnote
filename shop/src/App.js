@@ -7,12 +7,15 @@ function ItemList() {
   let [shoeData] = useState(Data);
   return (
     <Container>
-      {
-        shoeData.map((a) => {
-          return Item(a)
-        })
-      }
+      <Row>
+        {
+          shoeData.map((a) => {
+            return Item(a)
+          })
+        }
+      </Row>
     </Container>
+
   )
 }
 
@@ -21,9 +24,9 @@ function Item(iData) {
   return (
     <Col>
       <img src={iData.img} width="100%" alt="product" />
-      <Row><h4>{iData.title}</h4></Row>
-      <Row><p>{iData.content}</p></Row>
-      <Row><p>&#8361;{iData.price.toLocaleString("en", { useGrouping: true })}</p></Row>
+      <h4>{iData.title}</h4>
+      <p>{iData.content}</p>
+      <p>&#8361;{iData.price.toLocaleString("en", { useGrouping: true })}</p>
     </Col>
   )
 }
