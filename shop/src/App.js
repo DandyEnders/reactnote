@@ -3,6 +3,9 @@ import { Navbar, Container, Nav, NavDropdown, Button, Col, Row } from 'react-boo
 import './App.css';
 import Data from "./data.js";
 
+import { Link, Route, Switch } from 'react-router-dom';
+import Detail from './Detail';
+
 function ItemList() {
   let [shoeData] = useState(Data);
   return (
@@ -23,7 +26,7 @@ function Item(iData) {
 
   return (
     <Col>
-    {/* ... src={ "http... image" + prop.i + ".jpg" } ... */}
+      {/* ... src={ "http... image" + prop.i + ".jpg" } ... */}
       <img src={iData.img} width="100%" alt="product" />
       <h4>{iData.title}</h4>
       <p>{iData.content}</p>
@@ -42,8 +45,8 @@ function App() {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link href="#home">Unworking Home</Nav.Link>
-              <Nav.Link href="#link">Unworking links</Nav.Link>
+              <Nav.Link><Link to="/">Home</Link></Nav.Link>
+              <Nav.Link><Link to="/detail">Detail</Link></Nav.Link>
               <NavDropdown title="Dropdown" id="basic-nav-dropdown">
                 <NavDropdown.Item href="#action/3.1">Unworking Action</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.2">Another Unworking Action</NavDropdown.Item>
@@ -55,20 +58,30 @@ function App() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      <div className="background">
-        <div><h1>20% Season off</h1>
-          <p>
-            Welcome to my shop!
-          </p>
-          <p>
-            <Button variant="primary">Learn more</Button>{' '}
-          </p>
-        </div>
-      </div>
 
-      <ItemList />
+      <Switch>
+        <Route exact path="/">
+          <div className="background">
+            <div><h1>20% Season off</h1>
+              <p>
+                Welcome to my shop!
+              </p>
+              <p>
+                <Button variant="primary">Learn more</Button>{' '}
+              </p>
+            </div>
+          </div>
+          <ItemList />
+        </Route>
+        <Route path="/detail" component={Detail}></Route>
+        <Route path="/:id">
+          <div>YEAH!</div>
+        </Route>
+      </Switch>
+
     </div>
   );
 }
+
 
 export default App;
