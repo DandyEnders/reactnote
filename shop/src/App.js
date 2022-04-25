@@ -73,7 +73,7 @@ function App() {
           </div>
           <ItemList />
         </Route>
-        <Route path="/detail" component={Detail}></Route>
+        <Route path="/detail/:id" component={Detail}></Route>
         <Route path="/:id">
           <div>YEAH!</div>
         </Route>
