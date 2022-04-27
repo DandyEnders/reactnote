@@ -56,15 +56,22 @@ function Detail(props) {
       </div>
       <div className="col-md-6 mt-4">
         <h4 className="pt-5">{product.title}</h4>
-        <p>A{product.content}</p>
-        <p>1{product.price}</p>
-        <button className="btn btn-danger">Order now</button>
+        <p>{product.content}</p>
+        <p>{product.price}</p>
+        <Info inventory={props.inventory}></Info>
+        <button className="btn btn-danger" onClick={()=>{let temp = [...props.inventory]; temp[0] = temp[0] - 1; props.setInventory(temp)}}>Order now</button>
         <button className="btn btn-danger" onClick={()=>{
           history.goBack();
         }}>Back off</button>
       </div>
     </div>
   </div>;
+}
+
+function Info(props){
+  return (
+    <p>Inventory: {props.inventory[0]}</p>
+  )
 }
 
 export default withRouter(Detail)

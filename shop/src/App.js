@@ -1,41 +1,56 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Navbar, Container, Nav, NavDropdown, Button, Col, Row } from 'react-bootstrap';
 import './App.css';
 import Data from "./data.js";
+import axios from 'axios';
 
 import { Link, Route, Switch } from 'react-router-dom';
 import Detail from './Detail';
 
+let inventoryContext = React.createContext();
+
 function ItemList() {
-  let [shoeData] = useState(Data);
+  let [shoeData, setShoeData] = useState(Data);
   return (
     <Container>
       <Row>
         {
-          shoeData.map((a) => {
-            return Item(a)
+          shoeData.map((a, i) => {
+            return Item(a, i)
           })
         }
       </Row>
+      <button className="btn btn-primary" onClick={() => {
+        axios.post("url", { id: "abc" })
+        axios.get("https://codingapple1.github.io/shop/data2.json")
+          .then((e) => {
+            setShoeData([...shoeData, ...e.data])
+          }).catch(() => {
+            console.log("Failed...")
+          });
+      }}>More...</button>
     </Container>
 
   )
 }
 
-function Item(iData) {
-
+function Item(iData, i) {
+  let inventory = useContext(inventoryContext);
   return (
     <Col>
       {/* ... src={ "http... image" + prop.i + ".jpg" } ... */}
-      <img src={iData.img} width="100%" alt="product" />
+      <img src={"https://codingapple1.github.io/shop/shoes" + (i + 1) + ".jpg"} width="100%" alt="product" />
       <h4>{iData.title}</h4>
       <p>{iData.content}</p>
       <p>&#8361;{iData.price.toLocaleString("en", { useGrouping: true })}</p>
+      <p>{inventory}</p>
     </Col>
   )
 }
 
 function App() {
+
+  let [inventory, setInventory] = useState([5, 6, 7])
 
   return (
     <div className="App">
@@ -71,9 +86,16 @@ function App() {
               </p>
             </div>
           </div>
-          <ItemList />
+          <inventoryContext.Provider value={inventory}>
+            <ItemList />
+          </inventoryContext.Provider>
+
         </Route>
-        <Route path="/detail/:id" component={Detail}></Route>
+        <Route path="/detail/:id">
+          <inventoryContext.Provider value={inventory}>
+            <Detail inventory={inventory} setInventory={setInventory}></Detail>
+          </inventoryContext.Provider>
+        </Route>
         <Route path="/:id">
           <div>YEAH!</div>
         </Route>
