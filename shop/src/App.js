@@ -3,6 +3,7 @@ import { Navbar, Container, Nav, NavDropdown, Button, Col, Row } from 'react-boo
 import './App.css';
 import Data from "./data.js";
 import axios from 'axios';
+import Cart from "./Cart.js";
 
 import { Link, Route, Switch } from 'react-router-dom';
 import Detail from './Detail';
@@ -95,6 +96,9 @@ function App() {
           <inventoryContext.Provider value={inventory}>
             <Detail inventory={inventory} setInventory={setInventory}></Detail>
           </inventoryContext.Provider>
+        </Route>
+        <Route path="/cart">
+          <Cart/>
         </Route>
         <Route path="/:id">
           <div>YEAH!</div>
