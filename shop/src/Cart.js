@@ -15,19 +15,26 @@ function Cart(props) {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>{ props.state[0].name }</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-          </tr>
+          {
+            props.state.map((a, i) => {
+              return (
+                <tr key={i}>
+                  <td>{a.id}</td>
+                  <td>{a.name}</td>
+                  <td>{a.quantity}</td>
+                  <td><button onClick={() => { props.dispatch({ type: "increment", index: i }) }}>+</button>
+                  <button onClick={() => { props.dispatch({ type: "decrement", index: i }) }}>-</button></td>
+                </tr>
+              )
+            })
+          }
         </tbody>
       </Table>
     </div>
   )
 }
 
-function callfunc(state){
+function callfunc(state) {
   return {
     state: state
   }
