@@ -22,7 +22,7 @@ function Cart(props) {
                   <td>{a.id}</td>
                   <td>{a.name}</td>
                   <td>{a.quantity}</td>
-                  <td><button onClick={() => { props.dispatch({ type: "increment", index: i }) }}>+</button>
+                  <td><button onClick={() => { props.dispatch({ type: "increment", index: i, payload: {name: "kim"} }) }}>+</button>
                   <button onClick={() => { props.dispatch({ type: "decrement", index: i }) }}>-</button></td>
                 </tr>
               )

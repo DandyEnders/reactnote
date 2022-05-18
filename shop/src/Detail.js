@@ -5,6 +5,7 @@ import { withRouter } from 'react-router';
 import Data from './data.js';
 import styled from 'styled-components';
 import { CSSTransition } from "react-transition-group";
+import { connect } from 'react-redux';
 import "./Detail.css";
 
 
@@ -65,7 +66,14 @@ function Detail(props) {
         <p>{product.content}</p>
         <p>{product.price}</p>
         <Info inventory={props.inventory}></Info>
-        <button className="btn btn-danger" onClick={() => { let temp = [...props.inventory]; temp[0] = temp[0] - 1; props.setInventory(temp) }}>Order now</button>
+        <button className="btn btn-danger" onClick={() => { 
+          let temp = [...props.inventory]; 
+          temp[0] = temp[0] - 1; 
+          props.setInventory(temp) 
+          
+          props.dispatch({type: "add_item", payload: {id: 2, name:"new_item", quantity: 1}})
+          history.push("/cart")
+          }}>Order now</button>
         <button className="btn btn-danger" onClick={() => {
           history.goBack();
         }}>Back off</button>
@@ -118,4 +126,11 @@ function Info(props) {
   )
 }
 
-export default withRouter(Detail)
+function callfunc(state) {
+  console.log(state)
+  return {
+    state: state.reducer,
+  }
+}
+export default connect(callfunc)(Detail);
+// export default withRouter(Detail)

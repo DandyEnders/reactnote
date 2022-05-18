@@ -11,7 +11,11 @@ import { createStore } from 'redux';
 let defaultState = [{ id: 0, name: "goodShoe", quantity: 2 },{ id: 1, name: "niceShoe", quantity: 5 }];
 
 function reducer(state = defaultState, action){
-  if (action.type === "increment"){
+  if (action.type === "add_item") {
+     let copy = [...state];
+     copy.push(action.payload);
+     return copy;
+  } else if (action.type === "increment"){
     let modifiedState = [...state];
     modifiedState[action.index].quantity += 1;
     return modifiedState;
